@@ -1,0 +1,25 @@
+# Build / test
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run test suite
+        run: python -m unittest discover -s tests -v
+      - name: CLI smoke test (fixtures, no SDK)
+        run: |
+          python -m guardrail_lens.cli tests/fixtures.py:KeywordBlockGuardrail >/dev/null; test $? -eq 1
+          python -m guardrail_lens.cli --json tests/fixtures.py:KeywordBlockGuardrail | python -c "import json,sys; d=json.load(sys.stdin); assert d['summary']['landed']>0"

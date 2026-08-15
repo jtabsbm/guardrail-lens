@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guardrail-lens"
+version = "1.0.0"
+description = "Red-team battery for aicomp_sdk-style agent guardrails: data-field exfil, confused deputies, taint-window padding."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["ai-safety", "guardrails", "agent-security", "red-team", "aicomp"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Software Development :: Testing",
+]
+
+[project.scripts]
+guardrail-lens = "guardrail_lens.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["guardrail_lens*"]
